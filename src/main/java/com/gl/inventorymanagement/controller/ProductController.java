@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,8 @@ public class ProductController {
 	@Autowired
 	SellerService sellerService;
 	
+	
+	@PreAuthorize("hasAuthority('ROLE_SELLER')")
 	@PostMapping("/add/product/{id}")
 	public ResponseEntity<String> register( @RequestBody Product product,@PathVariable int id) {
 		
@@ -53,6 +56,8 @@ public class ProductController {
 		return new ResponseEntity<Product>(productService.findProductById(id).get(),HttpStatus.OK);
 //		return productService.findProductById(id).get();
 	}
+	
+	@PreAuthorize("hasAuthority('ROLE_SELLER')")
 	@PutMapping("/update/product")
 	public ResponseEntity<String> updateProduct( @RequestBody Product product) {
 		Optional<Product> product2 = productService.findProductById(product.getId());
@@ -66,6 +71,7 @@ public class ProductController {
 	}
 		return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
 }
+	@PreAuthorize("hasAuthority('ROLE_SELLER')")
 	@PutMapping("/update/description")
 	public ResponseEntity<String> updateDescription( @RequestParam int id,@RequestParam String description) {
 		Optional<Product> product2 = productService.findProductById(id);
@@ -88,7 +94,7 @@ public class ProductController {
 	}
 		return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
 }
-	
+	@PreAuthorize("hasAuthority('ROLE_SELLER')")
 	@PutMapping("/update/price")
 	public ResponseEntity<String> updatePrice( @RequestParam int id,@RequestParam int price) {
 		Optional<Product> product2 = productService.findProductById(id);	
@@ -99,6 +105,7 @@ public class ProductController {
 	}
 		return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
 }
+	@PreAuthorize("hasAuthority('ROLE_SELLER')")
 	@DeleteMapping("/delete/product")
 	public ResponseEntity<String> deleteCustomer(@RequestParam int id) {
 		Optional<Product> product2 = productService.findProductById(id);

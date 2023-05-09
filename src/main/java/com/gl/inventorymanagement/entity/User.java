@@ -23,8 +23,8 @@ public class User {
 @Column(name="user_id")
 @GeneratedValue(strategy = GenerationType.AUTO)
  private int userId;
-@Size(min=4 , message = "Name should be atleast 4 characters")
- private String username;
+@Size(min=2 , message = "Name should be atleast 4 characters")
+ private String name;
  private String password;
- private String role;
+ private String roles;
 }

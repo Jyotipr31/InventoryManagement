@@ -36,10 +36,11 @@ import org.springframework.security.web.SecurityFilterChain;
 	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	        return http.csrf().disable()
 	                .authorizeHttpRequests()
-	                .requestMatchers("/products/welcome","/products/new").permitAll()
+	                .requestMatchers("/register/user").permitAll()
 	                .and()
 	                .authorizeHttpRequests().requestMatchers("/products/**")
-	                .authenticated().and().formLogin().and().build();
+	                .authenticated().and()
+	                .httpBasic().and().build();
 	    }
 
 	    @Bean
@@ -56,4 +57,4 @@ import org.springframework.security.web.SecurityFilterChain;
 	    }
 
 	}
-}
+

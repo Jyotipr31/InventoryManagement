@@ -29,13 +29,13 @@ public class UserController {
 	
 	@Autowired
 	CustomerService customerService;
-//	@PostMapping("/register/customer")
-//	public ResponseEntity<String> register( @RequestBody User user) {
-//		//return new ResponseEntity<Admin>(adminService.registerAdmin(admin),HttpStatus.CREATED);
-//		userService.registerUser(user);
-//		return new ResponseEntity<String>("Customer Registered with User Id :" + user.getUserId(),
-//				HttpStatus.ACCEPTED);
-//	}
+	@PostMapping("/register/user")
+	public ResponseEntity<String> register( @RequestBody User user) {
+		//return new ResponseEntity<Admin>(adminService.registerAdmin(admin),HttpStatus.CREATED);
+		userService.registerUser(user);
+		return new ResponseEntity<String>("Customer Registered with User Id :" + user.getUserId(),
+				HttpStatus.ACCEPTED);
+	}
 
 //	@PostMapping("/add/seller")
 //	public ResponseEntity<String> addSeller(@RequestBody Seller seller) {

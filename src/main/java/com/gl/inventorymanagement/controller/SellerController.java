@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,8 @@ public class SellerController {
 	@Autowired
 	SellerService sellerService;
 
+	
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PostMapping("/add/seller")
 	public ResponseEntity<String> addSeller(@Valid @RequestBody Seller seller) {
 		// return new ResponseEntity<Customer>(customerService.addCustomer(customer),
@@ -37,11 +40,13 @@ public class SellerController {
 				HttpStatus.ACCEPTED);
 	}
 
-	@GetMapping("/get/selller")
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@GetMapping("/get/seller")
 	public ResponseEntity<List<Seller>> getAllSeller() {
 		return new ResponseEntity<List<Seller>>(sellerService.getAllSellers(), HttpStatus.OK);
 	}
 
+	//@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@PutMapping("/update/seller")
 	public ResponseEntity<String> updateSeller( @Valid @RequestBody Seller seller) {
 		Optional<Seller> seller2 = sellerService.findSeller(seller.getSellerId());
@@ -58,6 +63,7 @@ public class SellerController {
 		return new ResponseEntity<String>("Seller Not Found", HttpStatus.NO_CONTENT);
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@DeleteMapping("/delete/seller")
 	public ResponseEntity<String> deleteSeller(@RequestParam int id) {
 		Optional<Seller> seller2 = sellerService.findSeller(id);
@@ -70,7 +76,8 @@ public class SellerController {
 		}
 		return new ResponseEntity<String>("Seller Not Found", HttpStatus.NO_CONTENT);
 	}
-
+    
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/get/sellerById")
 	public Seller getSellerById(@RequestParam int id) {
 		Optional<Seller> seller2 = sellerService.findSeller(id);
