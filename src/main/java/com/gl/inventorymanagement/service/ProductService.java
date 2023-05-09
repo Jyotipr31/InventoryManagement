@@ -50,6 +50,9 @@ public class ProductService {
 		productRepository.updateLocation(id,location);
 	}
 	
+	public void updatePrice(int id, int price) {
+		productRepository.updatePrice(id,price);
+	}
 	public void deleteProduct(int id) {
 		 productRepository.deleteById(id);
 	}

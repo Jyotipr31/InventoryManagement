@@ -7,7 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,11 +25,12 @@ public class Product {
 	private int id;
 	private String name;
 	private String category;
+	
 	private int  quantity; 
 	private Long unitPrice;
 	private String description;
 	private String location;
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sellerId")
+	@ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "seller_id")
    private Seller seller;
 }

@@ -31,20 +31,28 @@ public class ProductController {
 	SellerService sellerService;
 	
 	@PostMapping("/add/product/{id}")
-	public ResponseEntity<Product> register( @RequestBody Product product,@PathVariable int id) {
+	public ResponseEntity<String> register( @RequestBody Product product,@PathVariable int id) {
 		
 //		int i=product.getSeller().getSellerId();
 //		System.out.println(i);
 		Seller seller=sellerService.findSeller(id).get();
 		product.setSeller(seller);
-		return new ResponseEntity<Product>(productService.addProduct(product),HttpStatus.CREATED);
+		productService.addProduct(product);
+		return new ResponseEntity<String>("Product ",HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/get/product")
 	public ResponseEntity<List<Product>> getAllProducts() {
 		return new ResponseEntity<List<Product>>(productService.getAllProducts(),HttpStatus.OK);
+		
 	}
 	
+	@GetMapping("/get/productById/{id}")
+	public ResponseEntity<Product> getAllProductsById(@PathVariable int id) {
+
+		return new ResponseEntity<Product>(productService.findProductById(id).get(),HttpStatus.OK);
+//		return productService.findProductById(id).get();
+	}
 	@PutMapping("/update/product")
 	public ResponseEntity<String> updateProduct( @RequestBody Product product) {
 		Optional<Product> product2 = productService.findProductById(product.getId());
@@ -53,7 +61,7 @@ public class ProductController {
 		if(product2.isPresent()) {
 			productService.updateProduct(product);
 			System.out.println("product updated");
-			return new ResponseEntity<String>("Product Descption Updated with Product Id :" + product2.get().getId(), HttpStatus.ACCEPTED);
+			return new ResponseEntity<String>("Product Updated with Product Id :" + product2.get().getId(), HttpStatus.ACCEPTED);
 		  
 	}
 		return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
@@ -70,8 +78,8 @@ public class ProductController {
 		return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
 }
 	
-	@PutMapping("/purchase")
-	public ResponseEntity<String> updateDescription( @RequestParam int id,@RequestParam int quantity) {
+	@PutMapping("/update/quantity")
+	public ResponseEntity<String> updateQuantity( @RequestParam int id,@RequestParam int quantity) {
 		Optional<Product> product2 = productService.findProductById(id);	
 		if(product2.isPresent()) {
 			productService.updateQuantity(id, quantity);
@@ -81,6 +89,16 @@ public class ProductController {
 		return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
 }
 	
+	@PutMapping("/update/price")
+	public ResponseEntity<String> updatePrice( @RequestParam int id,@RequestParam int price) {
+		Optional<Product> product2 = productService.findProductById(id);	
+		if(product2.isPresent()) {
+			productService.updatePrice(id, price);
+			return new ResponseEntity<String>("price Updated with Product Id :" + product2.get().getId(), HttpStatus.ACCEPTED);
+		  
+	}
+		return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
+}
 	@DeleteMapping("/delete/product")
 	public ResponseEntity<String> deleteCustomer(@RequestParam int id) {
 		Optional<Product> product2 = productService.findProductById(id);

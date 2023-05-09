@@ -20,6 +20,7 @@ import com.gl.inventorymanagement.exception.SellerNotFoundException;
 import com.gl.inventorymanagement.service.SellerService;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 
 @RestController
 @Transactional
@@ -28,7 +29,7 @@ public class SellerController {
 	SellerService sellerService;
 
 	@PostMapping("/add/seller")
-	public ResponseEntity<String> addSeller(@RequestBody Seller seller) {
+	public ResponseEntity<String> addSeller(@Valid @RequestBody Seller seller) {
 		// return new ResponseEntity<Customer>(customerService.addCustomer(customer),
 		// HttpStatus.CREATED);
 		sellerService.addSeller(seller);
@@ -42,7 +43,7 @@ public class SellerController {
 	}
 
 	@PutMapping("/update/seller")
-	public ResponseEntity<String> updateSeller(@RequestBody Seller seller) {
+	public ResponseEntity<String> updateSeller( @Valid @RequestBody Seller seller) {
 		Optional<Seller> seller2 = sellerService.findSeller(seller.getSellerId());
 
 		if(seller2.get()==null) {

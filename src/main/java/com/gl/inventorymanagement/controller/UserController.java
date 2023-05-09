@@ -16,6 +16,8 @@ import com.gl.inventorymanagement.service.CustomerService;
 import com.gl.inventorymanagement.service.SellerService;
 import com.gl.inventorymanagement.service.UserService;
 
+import jakarta.validation.Valid;
+
 
 
 @RestController
@@ -44,10 +46,10 @@ public class UserController {
 //				HttpStatus.ACCEPTED);
 //	}
 	@PostMapping("/register/customer")
-	public ResponseEntity<String> registerCustomer( @RequestBody Customer customer) {
+	public ResponseEntity<String> registerCustomer(@Valid @RequestBody Customer customer) {
 		//return new ResponseEntity<Admin>(adminService.registerAdmin(admin),HttpStatus.CREATED);
-		customerService.addCustomer(customer);
-		return new ResponseEntity<String>("Customer Registered with User Id :" + customer.getId(),
+		Customer customer1 = customerService.addCustomer(customer);
+		return new ResponseEntity<String>("Customer Registered with User Id :" + customer1.getId(),
 				HttpStatus.ACCEPTED);
 	}
 	

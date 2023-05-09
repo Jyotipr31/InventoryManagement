@@ -23,4 +23,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	@Query("UPDATE Product p SET p.location = :location WHERE p.id = :id")
 	void updateLocation(@Param("id") int id, @Param("location") String location);
 	
+	@Modifying
+	@Query("UPDATE Product p SET p.unitPrice = :unitPrice WHERE p.id = :id")
+	void updatePrice(@Param("id") int id, @Param("unitPrice")int unitPrice);
+	
 }
