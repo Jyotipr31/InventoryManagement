@@ -1,19 +1,22 @@
 package com.gl.inventorymanagement.entity;
 
-import java.util.List;
-import java.util.function.LongFunction;
+import java.sql.Date;
+import java.time.LocalDate;
 
-import io.micrometer.common.lang.NonNull;
-import jakarta.annotation.Generated;
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,15 +26,22 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderProduct {
+public class OrderItem {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int orderProductId;
+	private int orderItemId;
 	
 	@NotNull(message="quantity can not be null")
 	private int quantity;
 	private Long price;
+	@CreationTimestamp
+	@Column(name = "created_at")
+    private LocalDate createdAt;
+	
+//	
+////	@Temporal(TemporalType.DATE)
+//	private Date dateTime;
 
 	@OneToOne
 	@JoinColumn(name = "product_id")

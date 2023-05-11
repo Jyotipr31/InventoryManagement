@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.gl.inventorymanagement.entity.User;
+import com.gl.inventorymanagement.entity.Admin;
 import com.gl.inventorymanagement.repository.UserRepository;
 
 @Component
@@ -19,10 +19,12 @@ import com.gl.inventorymanagement.repository.UserRepository;
 
 	    @Override
 	    public UserDetails loadUserByUsername(String username) {
-	        Optional<User> userInfo = repository.findByName(username);
+	    	System.out.println(username);
+	        Optional<Admin> userInfo = repository.findByUsername(username);
+	        System.out.println(userInfo.get().getUsername());
+	        System.out.println(userInfo.get().getPassword());
 	        return userInfo.map(UserInfoUserDetails::new)
 	                .orElseThrow(() -> new UsernameNotFoundException("user not found " + username));
 
 	    }
 	}
-

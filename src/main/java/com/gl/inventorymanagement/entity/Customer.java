@@ -3,6 +3,7 @@ package com.gl.inventorymanagement.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,8 +24,13 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	@Size(min=4 , message = "Name should be atleast 4 characters")
-	private String name;
-	
+	private String username;
+	private String password;
+	private String email;
+	private String roles;
+	private String gender;
+	private String address;
 	@OneToMany(mappedBy = "customer")
-	private List<OrderProduct> orderProducts;
+	private List<OrderItem> orderProducts;
+	
 }

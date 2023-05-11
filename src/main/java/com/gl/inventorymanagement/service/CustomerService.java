@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gl.inventorymanagement.entity.Customer;
-import com.gl.inventorymanagement.entity.OrderProduct;
+import com.gl.inventorymanagement.entity.OrderItem;
 import com.gl.inventorymanagement.entity.Product;
 import com.gl.inventorymanagement.repository.CustomerRepository;
 

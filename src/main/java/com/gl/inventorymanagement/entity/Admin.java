@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="user")
-public class User {
+@Table(name="admin")
+public class Admin {
 
 
 @Id
@@ -24,7 +24,9 @@ public class User {
 @GeneratedValue(strategy = GenerationType.AUTO)
  private int userId;
 @Size(min=2 , message = "Name should be atleast 4 characters")
- private String name;
+ private String username;
  private String password;
+ private String email;
+ private String location;
  private String roles;
 }

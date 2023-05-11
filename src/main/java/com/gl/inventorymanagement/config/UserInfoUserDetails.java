@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.gl.inventorymanagement.entity.User;
+import com.gl.inventorymanagement.entity.Admin;
 
 public class UserInfoUserDetails implements UserDetails {
 
@@ -18,8 +18,8 @@ public class UserInfoUserDetails implements UserDetails {
 	    private String password;
 	    private List<GrantedAuthority> authorities;
 
-	    public UserInfoUserDetails(User userInfo) {
-	        name=userInfo.getName();
+	    public UserInfoUserDetails(Admin userInfo) {
+	        name=userInfo.getUsername();
 	        password=userInfo.getPassword();
 	        authorities= Arrays.stream(userInfo.getRoles().split(","))
 	                .map(SimpleGrantedAuthority::new)

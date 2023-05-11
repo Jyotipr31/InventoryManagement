@@ -53,6 +53,9 @@ public class ProductService {
 	public void updatePrice(int id, int price) {
 		productRepository.updatePrice(id,price);
 	}
+	public void updateCategory(int id, String category) {
+		productRepository.updateCategory(id, category);
+	}
 	public void deleteProduct(int id) {
 		 productRepository.deleteById(id);
 	}
