@@ -31,7 +31,6 @@ import jakarta.transaction.Transactional;
 
 @RestController
 @Transactional
-//@RequestMapping("api-product")
 public class ProductController {	
 	@Autowired
 	ProductService productService;
@@ -40,7 +39,7 @@ public class ProductController {
 	
 	
 
-	@PostMapping("api-product/add/product/{id}")
+	@PostMapping("api-seller/add/product/{id}")
 	public ResponseEntity<String> addProduct( @RequestBody Product product,@PathVariable int id) {
 		
 		
@@ -59,7 +58,7 @@ public class ProductController {
 		return new ResponseEntity<String>("Product ",HttpStatus.CREATED);
 	}
 	
-	@GetMapping("api-all/get/products")
+	@GetMapping("api-all/get/allProducts")
 	public ResponseEntity<List<Product>> getAllProducts() {
 		try {
 			return new ResponseEntity<List<Product>>(productService.getAllProducts(),HttpStatus.OK);
@@ -71,7 +70,7 @@ public class ProductController {
 		
 	}
 	
-	@GetMapping("api-product/get/productById/{id}")
+	@GetMapping("api-all/get/productById/{id}")
 	public ResponseEntity<Product> getAllProductsById(@PathVariable int id) {
 
 		try {
@@ -83,6 +82,15 @@ public class ProductController {
 		}
 		return new ResponseEntity<Product>(productService.findProductById(id).get(),HttpStatus.OK);
 //		return productService.findProductById(id).get();
+	}
+	
+	@PutMapping("api-admin/update/product/{id}")
+	public ResponseEntity<String> updateProduct( @RequestBody Product product, @PathVariable int id){
+		Product updatedProduct = productService.updateProduct(product, id);
+		if(updatedProduct == null) {
+			return  new ResponseEntity<String>("The product does not exist",HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<String>("Product is updated",HttpStatus.OK);
 	}
 	
 	//@PreAuthorize("hasAuthority('ROLE_SELLER')")
@@ -113,7 +121,7 @@ public class ProductController {
 //	//	return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
 //}
 	//@PreAuthorize("hasAuthority('ROLE_SELLER')")
-	@PutMapping("api-product/update/description")
+	@PutMapping("api-seller/update/description")
 	public ResponseEntity<String> updateDescription( @RequestParam int id,@RequestParam String description) {
 		Optional<Product> product2 = productService.findProductById(id);
 		
@@ -128,7 +136,7 @@ public class ProductController {
 	//	return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
 }
 	
-	@PutMapping("api-product/update/quantity")
+	@PutMapping("api-seller/update/quantity")
 	public ResponseEntity<String> updateQuantity( @RequestParam int id,@RequestParam int quantity) {
 		Optional<Product> product2 = productService.findProductById(id);	
 		if(product2.isPresent()) {
@@ -142,7 +150,7 @@ public class ProductController {
 	//	return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
 }
 	//@PreAuthorize("hasAuthority('ROLE_SELLER')")
-	@PutMapping("api-product/update/price")
+	@PutMapping("api-seller/update/price")
 	public ResponseEntity<String> updatePrice( @RequestParam int id,@RequestParam int price) {
 		Optional<Product> product2 = productService.findProductById(id);	
 		if(product2.isPresent()) {
@@ -155,7 +163,7 @@ public class ProductController {
 		}
 //		return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
 }
-	@PutMapping("api-product/update/location")
+	@PutMapping("api-seller/update/location")
 	public ResponseEntity<String> updateLocation( @RequestParam int id,@RequestParam String location) {
 		Optional<Product> product2 = productService.findProductById(id);	
 		if(product2.isPresent()) {
@@ -169,7 +177,7 @@ public class ProductController {
 //		return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
 }
 	
-	@PutMapping("api-product/update/category")
+	@PutMapping("api-seller/update/category")
 	public ResponseEntity<String> updateCategory( @RequestParam int id,@RequestParam String category) {
 		Optional<Product> product2 = productService.findProductById(id);	
 		if(product2.isPresent()) {
@@ -183,8 +191,8 @@ public class ProductController {
 //		return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
 }
 	
-	//@PreAuthorize("hasAuthority('ROLE_SELLER')")
-	@DeleteMapping("api-product/delete/product")
+	
+	@DeleteMapping("api-seller/delete/product")
 	public ResponseEntity<String> deleteCustomer(@RequestParam int id) {
 		Optional<Product> product2 = productService.findProductById(id);
 
@@ -197,6 +205,6 @@ public class ProductController {
 		else {
 			throw new ResourceNotFoundException();
 		}
-		//return new ResponseEntity<String>("Customer Not Found", HttpStatus.NO_CONTENT);
+		
 	}
 }

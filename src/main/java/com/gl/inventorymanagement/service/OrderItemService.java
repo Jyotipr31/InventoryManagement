@@ -23,7 +23,7 @@ public class OrderItemService {
 		return orderProductRepository.findAll();
 	}
 	
-	public List<Object[]> findTotalPrice(){
-		return orderProductRepository.findProductCountsByCustomer();
-	}
+//	public List<Object[]> findTotalPrice(){
+//		return orderProductRepository.findProductCountsByCustomer();
+//	}
 }

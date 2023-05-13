@@ -3,6 +3,8 @@ package com.gl.inventorymanagement.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,10 +31,14 @@ public class Product{
 	private int id;
 	private String name;
 	private String category;
-	private int  quantity; 
+	private Integer  quantity; 
 	private Long unitPrice;
 	private String description;
 	private String location;
+	private boolean isFragile;
+	private boolean isHazardous;
+	private String weight;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToMany(cascade = CascadeType.ALL)
    private List<Seller> seller=new ArrayList<>();
 }

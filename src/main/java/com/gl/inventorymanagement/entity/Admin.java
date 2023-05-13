@@ -1,5 +1,7 @@
 package com.gl.inventorymanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +27,7 @@ public class Admin {
  private int userId;
 @Size(min=2 , message = "Name should be atleast 4 characters")
  private String username;
+@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
  private String password;
  private String email;
  private String location;

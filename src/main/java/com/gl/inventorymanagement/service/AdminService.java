@@ -1,12 +1,15 @@
 package com.gl.inventorymanagement.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.apache.logging.log4j.util.StringBuilderFormattable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gl.inventorymanagement.entity.Admin;
-import com.gl.inventorymanagement.repository.UserRepository;
+import com.gl.inventorymanagement.repository.AdminRepository;
 
 //@Service
 //public class UserService {
@@ -33,21 +36,32 @@ import com.gl.inventorymanagement.repository.UserRepository;
 //}
 
 @Service
-public class UserService {
+public class AdminService {
 
 	@Autowired
-	UserRepository userRepository;
+	AdminRepository adminRepository;
 
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 	public Admin authenticate(String name, String password) {
-		return userRepository.findUserByUsernameAndPassword(name, password);
+		return adminRepository.findUserByUsernameAndPassword(name, password);
 	}
 
 	public Admin registerAdmin(Admin admin) {
 		String password=  passwordEncoder.encode(admin.getPassword());
 		admin.setPassword(password);
-		return userRepository.save(admin);
+		return adminRepository.save(admin);
+	}
+
+	public Optional<Admin> findAdminById(int id) {
+		// TODO Auto-generated method stub
+		return adminRepository.findById(id);
+	}
+
+	public List<Admin> getAllAdmin() {
+		// TODO Auto-generated method stub
+		return adminRepository.findAll();
+		
 	}
 	
 }

@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.gl.inventorymanagement.entity.Admin;
 import com.gl.inventorymanagement.entity.Seller;
 import com.gl.inventorymanagement.repository.SellerRepository;
 
@@ -13,6 +15,13 @@ import com.gl.inventorymanagement.repository.SellerRepository;
 public class SellerService {
 	@Autowired
     private SellerRepository sellerRepository;
+	
+	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	public Seller authenticate(String name, String password) {
+		return sellerRepository.findUserByUsernameAndPassword(name, password);
+	}
 	
 	public Seller addSeller(Seller  seller) {
 		 return sellerRepository.save(seller); 
@@ -22,6 +31,8 @@ public class SellerService {
 		return  sellerRepository.findAll();
 	}
 	public void updateSeller(Seller seller) {
+		String password=  passwordEncoder.encode(seller.getPassword());
+		seller.setPassword(password);
 		 sellerRepository.save(seller);
 	}
 	public void updateType(int id,String type) {
@@ -49,5 +60,11 @@ public class SellerService {
 	
 	public void deleteSeller(int id) {
 		 sellerRepository.deleteById(id);
+	}
+	
+	public Seller registerSeller(Seller seller) {
+		String password=  passwordEncoder.encode(seller.getPassword());
+		seller.setPassword(password);
+		return sellerRepository.save(seller);
 	}
 }

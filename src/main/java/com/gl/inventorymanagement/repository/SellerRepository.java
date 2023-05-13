@@ -1,6 +1,7 @@
 package com.gl.inventorymanagement.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.gl.inventorymanagement.entity.Admin;
 import com.gl.inventorymanagement.entity.Seller;
 
 @Repository
@@ -35,4 +37,10 @@ public interface SellerRepository extends JpaRepository<Seller,Integer> {
 	@Modifying
 	@Query("SELECT e FROM Seller e WHERE e.location = :location")
 	List<Seller> getSellerByLocation(@Param("location") String location);
+	
+
+	@Query(value = "SELECT * FROM seller a WHERE a.username = ?1 AND a.password = ?2", nativeQuery = true)
+	public Seller findUserByUsernameAndPassword(String username ,String password);
+	  Optional<Seller> findByUsername(String username);
+	
 }

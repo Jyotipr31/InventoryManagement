@@ -51,10 +51,12 @@ public class SecurityConfig {
 //        .hasRole("ADMIN").and()
 //        .httpBasic();
     	http.csrf().disable()
-        .authorizeHttpRequests().requestMatchers("/register/user").permitAll().and()
-        .authorizeHttpRequests().requestMatchers("/placeorder/{ids}","api-customer").hasRole("CUSTOMER").and()
-        .authorizeHttpRequests().requestMatchers("api-all/**").hasAnyRole("ADMIN","SELLER","CUSTOMER").and()
-        .authorizeHttpRequests().requestMatchers("api-seller/**").hasRole("ADMIN").and().httpBasic();
+        .authorizeHttpRequests().requestMatchers("api-all/**").permitAll().and()
+        .authorizeHttpRequests().requestMatchers("api-customer/**").hasRole("CUSTOMER").and()
+        .authorizeHttpRequests().requestMatchers("api-admin/**").hasRole("ADMIN").and()
+        .authorizeHttpRequests().requestMatchers("api-order/**").hasAnyRole("ADMIN","CUSTOMER").and()
+        .authorizeHttpRequests().requestMatchers("/api-seller/**").hasRole("SELLER").and()
+        .httpBasic();
          
         return http.build(); 
     	

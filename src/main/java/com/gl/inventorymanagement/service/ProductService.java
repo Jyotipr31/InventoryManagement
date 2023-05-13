@@ -30,9 +30,9 @@ public class ProductService {
 		
 		return  productRepository.findAll();
 	}
-	public void updateProduct(Product product) {
-		 productRepository.save(product);
-	}
+//	public void updateProduct(Product product) {
+//		 productRepository.save(product);
+//	}
 	
 	public void updateQuantity(int id,int quantity) {
 		 productRepository.updateQuantity(id,quantity);
@@ -58,5 +58,32 @@ public class ProductService {
 	}
 	public void deleteProduct(int id) {
 		 productRepository.deleteById(id);
+	}
+	
+	public Product updateProduct(Product updatedProduct, int id){
+		Optional<Product> optionalOldProduct = productRepository.findById(id);
+		if(optionalOldProduct.isEmpty()) {
+			return null;
+		}
+		Product oldProduct = optionalOldProduct.get();
+		if(updatedProduct.getCategory() != null)
+			oldProduct.setCategory(updatedProduct.getCategory());
+		if(updatedProduct.getDescription() != null)
+			oldProduct.setDescription(updatedProduct.getDescription());
+		if(updatedProduct.getLocation() != null)
+			oldProduct.setLocation(updatedProduct.getLocation());
+		if(updatedProduct.getName() != null)
+			oldProduct.setName(updatedProduct.getName());
+		if(updatedProduct.getQuantity() != null)
+			oldProduct.setQuantity(updatedProduct.getQuantity());
+		if(updatedProduct.getSeller() != null)
+			oldProduct.setSeller(updatedProduct.getSeller());
+		if(updatedProduct.getUnitPrice() != null)
+			oldProduct.setUnitPrice(updatedProduct.getUnitPrice());
+		if(updatedProduct.getWeight() != null)
+			oldProduct.setWeight(updatedProduct.getWeight());
+		
+		return productRepository.save(oldProduct);
+		
 	}
 }
