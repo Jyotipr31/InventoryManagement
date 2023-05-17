@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gl.inventorymanagement.entity.Admin;
+import com.gl.inventorymanagement.entity.Category;
 import com.gl.inventorymanagement.entity.Seller;
 import com.gl.inventorymanagement.repository.SellerRepository;
 
@@ -26,6 +27,7 @@ public class SellerService {
 	public Seller addSeller(Seller  seller) {
 		 return sellerRepository.save(seller); 
 	}
+	
 	public List<Seller> getAllSellers() {
 		
 		return  sellerRepository.findAll();

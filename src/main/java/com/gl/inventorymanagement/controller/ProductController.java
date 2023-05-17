@@ -20,9 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gl.inventorymanagement.entity.Category;
 import com.gl.inventorymanagement.entity.Product;
 import com.gl.inventorymanagement.entity.Seller;
 import com.gl.inventorymanagement.exception.ResourceNotFoundException;
+import com.gl.inventorymanagement.exception.SellerNotFoundException;
+import com.gl.inventorymanagement.service.CategoryService;
 import com.gl.inventorymanagement.service.ProductService;
 import com.gl.inventorymanagement.service.SellerService;
 
@@ -36,7 +39,8 @@ public class ProductController {
 	ProductService productService;
 	@Autowired
 	SellerService sellerService;
-	
+	@Autowired
+	CategoryService categoryService;
 	
 
 	@PostMapping("api-seller/add/product/{id}")
@@ -44,18 +48,41 @@ public class ProductController {
 		
 		
 		try {
+			Category category=categoryService.findByCategory(product.getCategory());
+			if(category==null) {
+				return new ResponseEntity<String>("Category not found",HttpStatus.NOT_FOUND);
+			}
 			Seller seller=sellerService.findSeller(id).get();
 			List<Seller> sellers=new ArrayList<>();
 			sellers.add(seller);
 			product.setSeller(sellers);
+			
+			System.out.println(product.getId());
 			productService.addProduct(product);
+			
 		} catch (Exception e) {
 			if(e!=null)
 				throw new ResourceNotFoundException();
 		}
 		
 		
-		return new ResponseEntity<String>("Product ",HttpStatus.CREATED);
+		return new ResponseEntity<String>("Product Added ",HttpStatus.CREATED);
+	}
+	
+	@PostMapping("api-seller/add/category")
+	public ResponseEntity<String> addCategory( @RequestBody Category category) {
+		
+		
+		try {
+		
+			categoryService.addCategory(category);
+			
+		} catch (Exception e) {
+			if(e!=null)
+				throw new ResourceNotFoundException();
+		}
+		
+		return new ResponseEntity<String>("Category Created ",HttpStatus.CREATED);
 	}
 	
 	@GetMapping("api-all/get/allProducts")
@@ -69,7 +96,17 @@ public class ProductController {
 		return new ResponseEntity<List<Product>>(productService.getAllProducts(),HttpStatus.OK);
 		
 	}
-	
+	@GetMapping("api-all/get/allCategories")
+	public ResponseEntity<List<Category>> getAllCategory() {
+		try {
+			return new ResponseEntity<List<Category>>(categoryService.getAllCategory(),HttpStatus.OK);
+		} catch (Exception e) {
+			if(e!=null)
+				throw new ResourceNotFoundException();
+		}
+		return new ResponseEntity<List<Category>>(categoryService.getAllCategory(),HttpStatus.OK);
+		
+	}
 	@GetMapping("api-all/get/productById/{id}")
 	public ResponseEntity<Product> getAllProductsById(@PathVariable int id) {
 
@@ -84,7 +121,7 @@ public class ProductController {
 //		return productService.findProductById(id).get();
 	}
 	
-	@PutMapping("api-admin/update/product/{id}")
+	@PutMapping("api-seller/update/product/{id}")
 	public ResponseEntity<String> updateProduct( @RequestBody Product product, @PathVariable int id){
 		Product updatedProduct = productService.updateProduct(product, id);
 		if(updatedProduct == null) {
@@ -93,96 +130,29 @@ public class ProductController {
 		return new ResponseEntity<String>("Product is updated",HttpStatus.OK);
 	}
 	
-	//@PreAuthorize("hasAuthority('ROLE_SELLER')")
-//	@PutMapping("/update/product")
-//	public ResponseEntity<String> updateProduct( @RequestBody Product product) {
-//		try {
-//			Optional<Product> product2 = productService.findProductById(product.getId());
-//			Seller seller=product2.get().getSeller();
-//			product.setSeller(seller);
-//		} catch (Exception e) {
-//			if(e != null) {
-//				throw new ResourceNotFoundException();
-//			}
-//		}
-//		Optional<Product> product2 = productService.findProductById(product.getId());
-//		Seller seller=product2.get().getSeller();
-//		product.setSeller(seller);
-//		
-//		if(product2.isPresent()) {
-//			productService.updateProduct(product);
-//			System.out.println("product updated");
-//			return new ResponseEntity<String>("Product Updated with Product Id :" + product2.get().getId(), HttpStatus.ACCEPTED);
-//		  
-//	}
-//		else {
-//			throw new ResourceNotFoundException();
-//		}
-//	//	return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
-//}
-	//@PreAuthorize("hasAuthority('ROLE_SELLER')")
-	@PutMapping("api-seller/update/description")
-	public ResponseEntity<String> updateDescription( @RequestParam int id,@RequestParam String description) {
-		Optional<Product> product2 = productService.findProductById(id);
-		
-		if(product2.isPresent()) {
-			productService.updateDescription(id, description);
-			return new ResponseEntity<String>("Description Updated with Product Id :" + product2.get().getId(), HttpStatus.ACCEPTED);
-		  
-	}
-		else {
-			throw new ResourceNotFoundException();
-		}
-	//	return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
-}
+
+
 	
-	@PutMapping("api-seller/update/quantity")
-	public ResponseEntity<String> updateQuantity( @RequestParam int id,@RequestParam int quantity) {
-		Optional<Product> product2 = productService.findProductById(id);	
-		if(product2.isPresent()) {
-			productService.updateQuantity(id, quantity);
-			return new ResponseEntity<String>("quantity Updated with Product Id :" + product2.get().getId(), HttpStatus.ACCEPTED);
-		  
-	}
+	@GetMapping("api-seller/get/productByCategory")
+	public List<Product> getSellerByType(@RequestParam String category) {
+		List<Product> productList =productService.findProductByCategory(category);
+		if (productList!=null) {
+			return productList;
+		}
 		else {
 			throw new ResourceNotFoundException();
 		}
-	//	return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
-}
-	//@PreAuthorize("hasAuthority('ROLE_SELLER')")
-	@PutMapping("api-seller/update/price")
-	public ResponseEntity<String> updatePrice( @RequestParam int id,@RequestParam int price) {
-		Optional<Product> product2 = productService.findProductById(id);	
-		if(product2.isPresent()) {
-			productService.updatePrice(id, price);
-			return new ResponseEntity<String>("price Updated with Product Id :" + product2.get().getId(), HttpStatus.ACCEPTED);
-		  
+		
+
 	}
-		else {
-			throw new ResourceNotFoundException();
-		}
-//		return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
-}
-	@PutMapping("api-seller/update/location")
-	public ResponseEntity<String> updateLocation( @RequestParam int id,@RequestParam String location) {
-		Optional<Product> product2 = productService.findProductById(id);	
-		if(product2.isPresent()) {
-			productService.updateLocation(id, location);
-			return new ResponseEntity<String>("Location Updated with Product Id :" + product2.get().getId(), HttpStatus.ACCEPTED);
-		  
-	}
-		else {
-			throw new ResourceNotFoundException();
-		}
-//		return new ResponseEntity<String>("Product Not Found" , HttpStatus.NO_CONTENT);
-}
+	
 	
 	@PutMapping("api-seller/update/category")
 	public ResponseEntity<String> updateCategory( @RequestParam int id,@RequestParam String category) {
-		Optional<Product> product2 = productService.findProductById(id);	
-		if(product2.isPresent()) {
-			productService.updateCategory(id, category);
-			return new ResponseEntity<String>("Category Updated with Product Id :" + product2.get().getId(), HttpStatus.ACCEPTED);
+		Optional<Category> category1 =categoryService.findCategoryById(id);	
+		if(category1.isPresent()) {
+			categoryService.updateCategory(id, category);
+			return new ResponseEntity<String>("Category Updated", HttpStatus.ACCEPTED);
 		  
 	}
 		else {
@@ -199,6 +169,22 @@ public class ProductController {
 		if (product2.isPresent()) {
 			productService.deleteProduct(id);
 			return new ResponseEntity<String>("Customer deleted with Customer Id :" + product2.get().getId(),
+					HttpStatus.ACCEPTED);
+
+		}
+		else {
+			throw new ResourceNotFoundException();
+		}
+		
+	}
+	
+	@DeleteMapping("api-seller/delete/category")
+	public ResponseEntity<String> deleteCategory(@RequestParam String category) {
+		Category  category1=categoryService.findByCategory(category);
+
+		if (category1!=null) {
+			categoryService.deleteCategory(category1.getId());
+			return new ResponseEntity<String>("Category deleted ",
 					HttpStatus.ACCEPTED);
 
 		}

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gl.inventorymanagement.entity.Category;
 import com.gl.inventorymanagement.entity.Product;
 import com.gl.inventorymanagement.repository.ProductRepository;
 
@@ -34,27 +35,27 @@ public class ProductService {
 //		 productRepository.save(product);
 //	}
 	
-	public void updateQuantity(int id,int quantity) {
-		 productRepository.updateQuantity(id,quantity);
-	}
+	
 	public Optional<Product> findProductById(int id) {
 
 		return productRepository.findById(id);
 	}
 	
-	public void updateDescription(int id, String description) {
-		productRepository.updateDescription(id,description);
-	}
+//	public void updateDescription(int id, String description) {
+//		productRepository.updateDescription(id,description);
+//	}
+//	
+//	public void updateLocation(int id, String location) {
+//		productRepository.updateLocation(id,location);
+//	}
+//	
+//	public void updatePrice(int id, int price) {
+//		productRepository.updatePrice(id,price);
+//	}
 	
-	public void updateLocation(int id, String location) {
-		productRepository.updateLocation(id,location);
-	}
-	
-	public void updatePrice(int id, int price) {
-		productRepository.updatePrice(id,price);
-	}
-	public void updateCategory(int id, String category) {
-		productRepository.updateCategory(id, category);
+	public List<Product> findProductByCategory(String category) {
+
+		return productRepository.getProductByCategory(category);
 	}
 	public void deleteProduct(int id) {
 		 productRepository.deleteById(id);
@@ -80,8 +81,8 @@ public class ProductService {
 			oldProduct.setSeller(updatedProduct.getSeller());
 		if(updatedProduct.getUnitPrice() != null)
 			oldProduct.setUnitPrice(updatedProduct.getUnitPrice());
-		if(updatedProduct.getWeight() != null)
-			oldProduct.setWeight(updatedProduct.getWeight());
+		if(updatedProduct.getWeightInKg() != null)
+			oldProduct.setWeightInKg(updatedProduct.getWeightInKg());
 		
 		return productRepository.save(oldProduct);
 		

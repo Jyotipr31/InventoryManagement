@@ -45,6 +45,7 @@ public class OrderItem {
 	@OneToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "Customer_id")
 	private Customer customer;

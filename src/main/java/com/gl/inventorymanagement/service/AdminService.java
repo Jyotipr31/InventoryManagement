@@ -58,6 +58,10 @@ public class AdminService {
 		return adminRepository.findById(id);
 	}
 
+	public Optional<Admin> findAdminByLocation(String location) {
+		
+		return adminRepository.findAdminByLocation(location);
+	}
 	public List<Admin> getAllAdmin() {
 		// TODO Auto-generated method stub
 		return adminRepository.findAll();

@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.gl.inventorymanagement.entity.Admin;
+import com.gl.inventorymanagement.entity.Category;
 import com.gl.inventorymanagement.entity.Seller;
 
 @Repository
@@ -42,5 +43,8 @@ public interface SellerRepository extends JpaRepository<Seller,Integer> {
 	@Query(value = "SELECT * FROM seller a WHERE a.username = ?1 AND a.password = ?2", nativeQuery = true)
 	public Seller findUserByUsernameAndPassword(String username ,String password);
 	  Optional<Seller> findByUsername(String username);
+
 	
+	
+	  
 }

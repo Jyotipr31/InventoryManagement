@@ -22,7 +22,7 @@ public class Admin {
 
 
 @Id
-@Column(name="user_id")
+@Column(name="admin_id")
 @GeneratedValue(strategy = GenerationType.AUTO)
  private int userId;
 @Size(min=2 , message = "Name should be atleast 4 characters")

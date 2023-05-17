@@ -26,9 +26,7 @@ public class CustomerController {
 	CustomerService customerService;
 	@PostMapping("api-all/registerCustomer")
 	public ResponseEntity<String> registerCustomer(@Valid @RequestBody Customer customer) {
-		//return new ResponseEntity<Admin>(adminService.registerAdmin(admin),HttpStatus.CREATED);
-		
-		
+				
 		Customer customer1 = customerService.registerCustomer(customer);
 		return new ResponseEntity<String>("Customer Registered with User Id :" + customer1.getId(),
 				HttpStatus.ACCEPTED);

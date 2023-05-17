@@ -26,7 +26,7 @@ public class AdminController {
 	public ResponseEntity<String> registerAdmin( @RequestBody Admin admin) {
 		//return new ResponseEntity<Admin>(adminService.registerAdmin(admin),HttpStatus.CREATED);
 		userService.registerAdmin(admin);
-		return new ResponseEntity<String>("Customer Registered with User Id :" + admin.getUserId(),
+		return new ResponseEntity<String>("Admin Registered with User Id :" + admin.getUserId(),
 				HttpStatus.ACCEPTED);
 	}
 	
@@ -43,6 +43,22 @@ public class AdminController {
 		return new ResponseEntity<Admin>(userService.findAdminById(id).get(),HttpStatus.OK);
 //		return productService.findProductById(id).get();
 	}
+	
+	@GetMapping("api-admin/get/adminByLocation/{location}")
+	public ResponseEntity<Admin> getAdminByLocation(@PathVariable String location) {
+
+		try { 
+			return new ResponseEntity<Admin>(userService.findAdminByLocation(location) .get(),HttpStatus.OK);
+		} catch (Exception e) {
+			if(e!=null) { 
+				throw new ResourceNotFoundException();
+			}
+		}
+		return new ResponseEntity<Admin>(userService.findAdminByLocation(location).get(),HttpStatus.OK);
+//		return productService.findProductById(id).get();
+	}
+	
+	
 	
 	
 	@GetMapping("api-admin/get/allAdmin")

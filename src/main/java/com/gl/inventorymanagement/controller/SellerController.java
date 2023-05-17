@@ -29,13 +29,10 @@ import jakarta.validation.Valid;
 public class SellerController {
 	@Autowired
 	SellerService sellerService;
-	
-	
 
 	@PostMapping("api-all/addSeller")
 	public ResponseEntity<String> addSeller(@Valid @RequestBody Seller seller) {
-		// return new ResponseEntity<Customer>(customerService.addCustomer(customer),
-		// HttpStatus.CREATED);
+
 		try {
 			sellerService.registerSeller(seller);
 			return new ResponseEntity<String>("Seller Registered with Seller Id :" + seller.getSellerId(),
@@ -44,28 +41,25 @@ public class SellerController {
 			// TODO: handle exception
 			throw new SellerNotFoundException();
 		}
-		//sellerService.addSeller(seller);
-		//return new ResponseEntity<String>("Seller Registered with Seller Id :" + seller.getSellerId(),HttpStatus.ACCEPTED);
-	}
 
+	}
 
 	@GetMapping("api-admin/getSellers")
 	public ResponseEntity<List<Seller>> getAllSeller() {
 		try {
 			return new ResponseEntity<List<Seller>>(sellerService.getAllSellers(), HttpStatus.OK);
 		} catch (Exception e) {
-			if(e!=null)
+			if (e != null)
 				throw new SellerNotFoundException();
 		}
 		return new ResponseEntity<List<Seller>>(sellerService.getAllSellers(), HttpStatus.OK);
 	}
 
-	
 	@PutMapping("api-admin/update/seller")
-	public ResponseEntity<String> updateSeller( @Valid @RequestBody Seller seller) {
+	public ResponseEntity<String> updateSeller(@Valid @RequestBody Seller seller) {
 		Optional<Seller> seller2 = sellerService.findSeller(seller.getSellerId());
 
-		if(seller2.get()==null) {
+		if (seller2.get() == null) {
 			throw new SellerNotFoundException();
 		}
 		if (seller2.isPresent()) {
@@ -76,54 +70,6 @@ public class SellerController {
 		}
 		return new ResponseEntity<String>("Seller Not Found", HttpStatus.NO_CONTENT);
 	}
-	
-//	@PutMapping("api-admin/update/sellerType")
-//	public ResponseEntity<String> updateType(@RequestParam int id, @RequestParam  String type) {
-//		Optional<Seller> seller2 = sellerService.findSeller(id);
-//
-//		if(seller2.get()==null) {
-//			throw new SellerNotFoundException();
-//		}
-//		if (seller2.isPresent()) {
-//			sellerService.updateType(id,type);
-//			return new ResponseEntity<String>("Seller type updated :" + seller2.get().getSellerId(),
-//					HttpStatus.ACCEPTED);
-//
-//		}
-//		return new ResponseEntity<String>("Seller Not Found", HttpStatus.NO_CONTENT);
-//	}
-//
-//	@PutMapping("api-admin/update/sellerLocation")
-//	public ResponseEntity<String> updateLocation(@RequestParam int id, @RequestParam  String location) {
-//		Optional<Seller> seller2 = sellerService.findSeller(id);
-//
-//		if(seller2.get()==null) {
-//			throw new SellerNotFoundException();
-//		}
-//		if (seller2.isPresent()) {
-//			sellerService.updateType(id,location);
-//			return new ResponseEntity<String>("Seller type updated :" + seller2.get().getSellerId(),
-//					HttpStatus.ACCEPTED);
-//
-//		}
-//		return new ResponseEntity<String>("Seller Not Found", HttpStatus.NO_CONTENT);
-//	}
-//	@PutMapping("api-admin/update/sellerName")
-//	public ResponseEntity<String> updateName(@RequestParam int id, @RequestParam  String name) {
-//		Optional<Seller> seller2 = sellerService.findSeller(id);
-//
-//		if(seller2.get()==null) {
-//			throw new SellerNotFoundException();
-//		}
-//		if (seller2.isPresent()) {
-//			sellerService.updateName(id,name);
-//			return new ResponseEntity<String>("Seller name updated :" + seller2.get().getSellerId(),
-//					HttpStatus.ACCEPTED);
-//
-//		}
-//		return new ResponseEntity<String>("Seller Not Found", HttpStatus.NO_CONTENT);
-//	}
-
 
 	@DeleteMapping("api-admin/delete/seller")
 	public ResponseEntity<String> deleteSeller(@RequestParam int id) {
@@ -134,49 +80,43 @@ public class SellerController {
 			return new ResponseEntity<String>("Seller deleted with Seller Id :" + seller2.get().getSellerId(),
 					HttpStatus.ACCEPTED);
 
-		}
-		else {
+		} else {
 			throw new SellerNotFoundException();
 		}
-	
+
 	}
-    
 
 	@GetMapping("api-admin/get/sellerById")
 	public Seller getSellerById(@RequestParam int id) {
 		Optional<Seller> seller2 = sellerService.findSeller(id);
 		if (seller2.isPresent()) {
 			return seller2.get();
-		}
-		else {
+		} else {
 			throw new SellerNotFoundException();
 		}
-		//return null;
+		// return null;
 
 	}
-	
+
 	@GetMapping("api-seller/get/sellerByType")
 	public List<Seller> getSellerByType(@RequestParam String type) {
 		List<Seller> sellerList = sellerService.findSellerByType(type);
-		if (sellerList!=null) {
+		if (sellerList != null) {
 			return sellerList;
-		}
-		else {
+		} else {
 			throw new SellerNotFoundException();
 		}
-		
 
 	}
 
 	@GetMapping("api-seller/get/sellerByLocation")
 	public List<Seller> getSellerByLocation(@RequestParam String location) {
 		List<Seller> sellerList = sellerService.findSellerByLocation(location);
-		if (sellerList!=null) {
+		if (sellerList != null) {
 			return sellerList;
-		}
-		else {
+		} else {
 			throw new SellerNotFoundException();
-		} 
+		}
 
 	}
 
