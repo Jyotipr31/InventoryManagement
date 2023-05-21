@@ -55,7 +55,7 @@ public class ProductController {
 			Seller seller=sellerService.findSeller(id).get();
 			List<Seller> sellers=new ArrayList<>();
 			sellers.add(seller);
-			product.setSeller(sellers);
+//			product.setSeller(sellers);
 			
 			System.out.println(product.getId());
 			productService.addProduct(product);
@@ -168,7 +168,7 @@ public class ProductController {
 
 		if (product2.isPresent()) {
 			productService.deleteProduct(id);
-			return new ResponseEntity<String>("Customer deleted with Customer Id :" + product2.get().getId(),
+			return new ResponseEntity<String>("Product deleted",
 					HttpStatus.ACCEPTED);
 
 		}

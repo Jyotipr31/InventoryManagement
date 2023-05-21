@@ -60,6 +60,9 @@ public class ProductService {
 	public void deleteProduct(int id) {
 		 productRepository.deleteById(id);
 	}
+	public Product getProductByName(String name) {
+		return productRepository.getProductByName(name);
+	}
 	
 	public Product updateProduct(Product updatedProduct, int id){
 		Optional<Product> optionalOldProduct = productRepository.findById(id);
@@ -71,16 +74,16 @@ public class ProductService {
 			oldProduct.setCategory(updatedProduct.getCategory());
 		if(updatedProduct.getDescription() != null)
 			oldProduct.setDescription(updatedProduct.getDescription());
-		if(updatedProduct.getLocation() != null)
-			oldProduct.setLocation(updatedProduct.getLocation());
+
+		if(updatedProduct.getIsFragile() != null)
+			oldProduct.setIsFragile(updatedProduct.getIsFragile());
+		if(updatedProduct.getIsHazardous()!= null)
+			oldProduct.setIsHazardous(updatedProduct.getIsHazardous());
+		if(updatedProduct.getExpiryDate()!= null)
+			oldProduct.setExpiryDate(updatedProduct.getExpiryDate());
 		if(updatedProduct.getName() != null)
 			oldProduct.setName(updatedProduct.getName());
-		if(updatedProduct.getQuantity() != null)
-			oldProduct.setQuantity(updatedProduct.getQuantity());
-		if(updatedProduct.getSeller() != null)
-			oldProduct.setSeller(updatedProduct.getSeller());
-		if(updatedProduct.getUnitPrice() != null)
-			oldProduct.setUnitPrice(updatedProduct.getUnitPrice());
+		
 		if(updatedProduct.getWeightInKg() != null)
 			oldProduct.setWeightInKg(updatedProduct.getWeightInKg());
 		

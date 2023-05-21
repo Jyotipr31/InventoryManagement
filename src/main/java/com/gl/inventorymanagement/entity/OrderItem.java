@@ -36,20 +36,9 @@ public class OrderItem {
 	@CreationTimestamp
 	@Column(name = "created_at")
 	private LocalDate createdAt;
-
-//	
-////	@Temporal(TemporalType.DATE)
-//	private Date dateTime;
-
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@OneToOne
-	@JoinColumn(name = "product_id")
-	private Product product;
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@ManyToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "Customer_id")
-	private Customer customer;
-
+	private int productId;
+	private int sellerId;
+	private int customerId;
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToOne
 	@JoinColumn(name = "order_id")

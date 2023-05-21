@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gl.inventorymanagement.entity.Customer;
 import com.gl.inventorymanagement.entity.Seller;
+import com.gl.inventorymanagement.exception.ResourceNotFoundException;
 import com.gl.inventorymanagement.exception.SellerNotFoundException;
 import com.gl.inventorymanagement.service.CustomerService;
 
@@ -55,6 +57,21 @@ public class CustomerController {
 	public List<Customer> getCustomerByGender(@RequestParam String gender) {
 		
 		return customerService.getCustomerByGender(gender);
+
+	}
+	
+	@DeleteMapping("api-admin/delete/customer")
+	public ResponseEntity<String> deleteCustomer(@RequestParam int id) {
+		Optional<Customer> customer = customerService.findCustomerById(id);
+
+		if (customer.isPresent()) {
+			customerService.deleteCustomer(id);
+			return new ResponseEntity<String>("Customer deleted",
+					HttpStatus.ACCEPTED);
+
+		} else {
+			throw new ResourceNotFoundException();
+		}
 
 	}
 }

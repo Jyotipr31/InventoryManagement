@@ -42,6 +42,9 @@ public class CustomerService {
 		return customerRepository.getCustomerByGender(gender);
 	}
 	
+	public void deleteCustomer(int id) {
+		 customerRepository.deleteById(id);
+	}
 	public Customer registerCustomer(Customer customer) {
 		String password=  passwordEncoder.encode(customer.getPassword());
 		customer.setPassword(password);

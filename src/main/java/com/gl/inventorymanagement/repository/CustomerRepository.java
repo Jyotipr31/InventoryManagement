@@ -21,4 +21,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 	@Query(value = "SELECT * FROM customer a WHERE a.username = ?1 AND a.password =?2", nativeQuery = true)
 	public Customer findUserByUsernameAndPassword(String username ,String password);
 	  Optional<Customer> findByUsername(String username);
+	  
+
+
 }

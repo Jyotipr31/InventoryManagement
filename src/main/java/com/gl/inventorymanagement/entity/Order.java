@@ -32,6 +32,7 @@ public class Order {
 	@CreationTimestamp
     private LocalDate createdAt;
 	private int customerId;
+	private Integer addressId;
 	
 //	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)

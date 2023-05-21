@@ -36,12 +36,13 @@ public class Customer {
 	private String email;
 	private String roles;
 	private String gender;
+	private Integer age;
 	
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
 	private List<CustomerAddress> customerAddresses;
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@OneToMany(mappedBy = "customer")
-	private List<OrderItem> orderItem;
+//	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//	@OneToMany(mappedBy = "customer")
+//	private List<OrderItem> orderItem;
 	
 }
